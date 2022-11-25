@@ -1,0 +1,16 @@
+.model-logo{
+    width: 100px;
+    height: 100px;
+    margin-top: 0px;
+}
+
+.create-bureau-btn{
+    background-color: #DBC7BE;
+    color: black;
+}
+
+.create-bureau-btn:hover{
+    background-color: #DBC7BE;
+    color: black;
+    
+}

@@ -40,17 +40,17 @@ export default function Footer(){
                        <ul className='py-5'>
                             <li><a href='https://www.parliament.go.ug/'>Parliament of Uganda</a></li>
                             <li><a href='https://op.go.ug/'>Office of the President</a></li>
-                            <li><a href='#'>Bureaus</a></li>
-                            <li><a href='#'>About us</a></li>
-                            <li><a href='#'>Contact us</a></li>
+                            <li><a href='https://op.go.ug/'>Bureaus</a></li>
+                            <li><a href='https://op.go.ug/'>About us</a></li>
+                            <li><a href='https://op.go.ug/'>Contact us</a></li>
                        </ul>
                     </Grid>
                     <Grid item xs={12} md={3}>
                         <h2 className="text-2xl font-bold mb-5">Site Links</h2>
                        <ul className='py-5'>
-                            <li><a href='#'>Privacy</a></li>
-                            <li><a href='#'>Terms of use</a></li>
-                            <li><a href='#'>Help Center</a></li>
+                            <li><a href='https://op.go.ug/'>Privacy</a></li>
+                            <li><a href='https://op.go.ug/'>Terms of use</a></li>
+                            <li><a href='https://op.go.ug/'>Help Center</a></li>
                        </ul>
                     </Grid>
                     <Grid item xs={12} md={3}>
