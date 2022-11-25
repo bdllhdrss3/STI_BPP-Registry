@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './index.css';
+import { RouterProvider, } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import router from "./router/index"
+import { NotificationsProvider } from '@mantine/notifications';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const theme = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#1A5557',
+    },
+    secondary: {
+      main: '#EBC26B',
+    },
+  },
+ });
+
+export default function App(){
+  return(
+    
+      <ThemeProvider theme = {theme}>
+        <NotificationsProvider position="top-center" zIndex={2077}>
+          <RouterProvider router={router} />
+        </NotificationsProvider>
+      </ThemeProvider>
+    
+  )
 }
-
-export default App;

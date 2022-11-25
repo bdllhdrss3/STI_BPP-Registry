@@ -1,0 +1,46 @@
+
+.drawerlogo{
+    width: 58px;
+    height: 58px;
+    padding: 3px;
+}
+
+.drawerheader{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.button {
+    background-color:#6CAA1C;
+}
+
+.see-more-btn{
+    background-color: #FFF9DB;
+    margin: auto;
+}
+
+.change-btn {
+    background-color: #95ADB6;
+}
+.change-btn:hover {
+    background-color: #96ADB4;
+}
+.assign-btn{
+    background-color: #E5F0CD;
+}
+
+.assign-btn:hover{
+    background-color: #E5F0CD;
+}
+
+.create-btn{
+    background-color: #1A5557;
+    margin-left: auto;
+}
+
+.create-btn:hover{
+    background-color: #1A5557;
+}
+.mantine-Input-input{
+    background-color: #F5FAEA;
+}
