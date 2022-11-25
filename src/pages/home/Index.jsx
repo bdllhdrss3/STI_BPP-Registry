@@ -18,6 +18,7 @@ export default function Home(){
             <div className="top-row py-8">
                 <header>
                     <img className='logo mx-10' alt='logo' src={logo}></img>
+                    <buton>jsjsj</buton>
                 </header>
                 <div className=" top-banner mt-8">
                     <h1 className="text-5xl text-white font-bold">
