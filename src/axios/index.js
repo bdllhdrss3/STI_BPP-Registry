@@ -1,19 +1,24 @@
 import axios from 'axios';
+import {store} from '../store/store'
 // import { useSelector, useDispatch } from 'react-redux'
+
 
 const instance = axios.create({
     baseURL:  process.env.REACT_APP_HOST
 });
 
 
-// axios.interceptors.request.use(request => {
-//     console.log(request);
-//     // Edit request config
-//     return request;
-// }, error => {
-//     console.log(error);
-//     return Promise.reject(error);
-// });
+instance.interceptors.request.use(async (request) => {
+
+    request.headers = {
+        ...request.headers,
+        Authorization: `Bearer ${store.getState().app.token}`
+    }
+    return request;
+}, error => {
+    console.log(error);
+    return Promise.reject(error);
+});
 
 // axios.interceptors.response.use(response => {
 //     console.log(response);
@@ -24,7 +29,7 @@ const instance = axios.create({
 //     return Promise.reject(error);
 // });
 
-instance.defaults.headers.common['Authorization'] = 'AUTH TOKEN FROM INSTANCE';
+// instance.defaults.headers.common['Authorization'] = ;
 
 
 export default instance;

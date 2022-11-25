@@ -19,9 +19,8 @@ export default function BureauHeadsListItem(props){
                     </Text>
                     <Text fz="xs" c="blue">{!props.bureau.head_of_bureau  && "No bureau lead"}</Text>
             </Grid.Col>
-            <Grid.Col span={2}>
-                
-            <AssignBureauLead data={props}/>
+            <Grid.Col span={2}>       
+             {props.bureau.head_of_bureau === null ? <AssignBureauLead data={props}/> : <ChangeHeadOfBureau data={props}/>    }
             </Grid.Col>
             
         </Grid>

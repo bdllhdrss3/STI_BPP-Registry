@@ -18,9 +18,16 @@ import Menu from '@mui/material/Menu';
 import logo from "../assets/images/logo.png"
 import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import { Outlet } from "react-router-dom";
+import { Outlet,useLocation } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import './style.css'
+import { useDispatch } from 'react-redux'
+import {logOut} from '../store/app/index'
+import { useNavigate, } from "react-router-dom";
+import { useEffect } from "react";
+
+
+
 
 const drawerWidth = 240;
 
@@ -73,9 +80,20 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function PersistentDrawerLeft() {
   
-  const user = useSelector((state) => state.auth.profile)
+  const user = useSelector((state) => state.app.profile)
+  const loggedIn = useSelector((state) => state.app.loggedIn)
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+  useEffect(() => {
+    if(!loggedIn){
+      navigate("/login")
+    }
+  })
+
+ 
 
     const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -84,6 +102,12 @@ export default function PersistentDrawerLeft() {
     const handleClose = () => {
     setAnchorEl(null);
     };
+
+    const logout = () => {
+      dispatch(logOut())
+      handleClose()
+      navigate("/login");
+    }
 
   const handleDrawerOpen = () => {
     setOpen(!open);
@@ -106,9 +130,20 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             
           </Typography>
+          <IconButton
+            color="inherit"
+            size="large" 
+            aria-label="home"
+            href="/" 
+            sx={{ mr: 2, ...(open && { color: '#1A5557' }) }}
+          >
+            <HomeRoundedIcon/>
+          </IconButton>
+
           <span style={{color:'#6CAA1C',backgroundColor:'#E5F0CD', borderRadius: '10px',padding: '8px'}}>
             {user?.first_name ?user.first_name + " "+ user.last_name: "welcome"}
           </span>
+          
           <div>
               <IconButton
                 size="large"
@@ -135,8 +170,7 @@ export default function PersistentDrawerLeft() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={logout}>Log out</MenuItem>
               </Menu>
             </div>
         </Toolbar>
@@ -162,11 +196,20 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <List sx={{margin: '1px !important'}}>
           {[ 
-            {name: 'Dashboard', icon: <HomeRoundedIcon sx={{ color: 'white'}}/>},
-            {name: 'Bureaus', icon: <AccountBalanceRoundedIcon sx={{ color: 'white'}}/>
-          }].map((text, index) => (
+            {
+              name: 'Dashboard', 
+              icon: <HomeRoundedIcon sx={{ color: 'white'}}/>, 
+              path:'/dashboard'
+            },
+            {
+              name: 'Bureaus', 
+              icon: <AccountBalanceRoundedIcon sx={{ color: 'white'}}/>, 
+              path:''
+            }
+          ].map((text, index) => (
             <ListItem 
                 key={index} 
+                
                 
                 sx={{
                     // selected and (selected + hover) states
@@ -187,7 +230,7 @@ export default function PersistentDrawerLeft() {
                     },
                   }}
             >
-              <ListItemButton selected={true}>
+              <ListItemButton selected={location.pathname === text.path?true:false}>
                 <ListItemIcon>
                 {text.icon}
                 </ListItemIcon>

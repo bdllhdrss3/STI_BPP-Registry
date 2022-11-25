@@ -88,6 +88,9 @@ footer{
     padding-bottom: 1em;
 }
 
+.mantine-Button-root{
+    color: white;
+}
 
 
 @media only screen and (max-width: 768px) {

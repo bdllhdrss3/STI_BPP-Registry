@@ -10,12 +10,15 @@ import { Button } from '@mantine/core';
 import Empty from './components/Empty'
 import { showNotification } from '@mantine/notifications';
 import { useState,useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import {setBureaus,setBureauLeads} from '../../store/app/index'
 import axios from "../../axios/index";
 
 export default function Dashboard(){
+    const dispatch = useDispatch()
     const [loading,setLoading] = useState(true)
-    const [createLoading,setCreateLoading] = useState(false)
-    const [bureaus,setBureaus] = useState([])
+
+    const bureaus = useSelector((state) => state.app.bureaus)
 
     useEffect(() => {
         // Fetch Bureaus
@@ -23,7 +26,7 @@ export default function Dashboard(){
         axios.get(`/get_bureau`)
             .then(function (response) {
                 setLoading(true)
-                setBureaus(response.data)
+                dispatch(setBureaus({bureaus:response.data}))
                 setLoading(false)
                 }
             ).catch(function (error) {
@@ -32,43 +35,23 @@ export default function Dashboard(){
                     message: "Couldnt Load bureaus",
                     styles: (theme) => ({
                         root: {
-                          backgroundColor: theme.colors.red[7],
-                          borderColor: theme.colors.red[7],
-                          '&::before': { backgroundColor: theme.blue },
+                          backgroundColor: '#CBB3BF',
+                          borderColor: '#CBB5BF',
                         },      
-                        title: { color: theme.blue },
+                        title: { color: theme.white },
                         description: { color: theme.white },
                       }),
                   })   
                   setLoading(false)
                 }
             )
-      },[]);
 
-    function create(x){
-        setCreateLoading(true)
-        axios.post('/create_bureau',{
-            name: x.name,
-            description:x.description,
-   
-        })
+        // get leads
+        axios.get(`/get_bureau_lead`)
             .then(function (response) {
-                setCreateLoading(true)
-                setBureaus([response.data,...bureaus])
-                setCreateLoading(false)
-                showNotification({
-                    title: 'Success',
-                    message: "Bureau created successfully",
-                    styles: (theme) => ({
-                        root: {
-                          backgroundColor: theme.colors.blue[6],
-                          borderColor: theme.colors.blue[6],
-                          '&::before': { backgroundColor: theme.white },
-                        },      
-                        title: { color: theme.blue },
-                        description: { color: theme.white },
-                      }),
-                  }) 
+                setLoading(true)
+                dispatch(setBureauLeads({bureauLeads:response.data.data}))
+                setLoading(false)
                 }
             ).catch(function (error) {
                   showNotification({
@@ -76,30 +59,31 @@ export default function Dashboard(){
                     message: "Couldnt Load bureaus",
                     styles: (theme) => ({
                         root: {
-                          backgroundColor: theme.colors.red[3],
-                          borderColor: theme.colors.red[7],
-                          '&::before': { backgroundColor: theme.blue },
+                          backgroundColor: '#CBB3BF',
+                          borderColor: '#CBB5BF',
                         },      
-                        title: { color: theme.blue },
+                        title: { color: theme.white },
                         description: { color: theme.white },
                       }),
                   })   
-                  setCreateLoading(false)
+                  setLoading(false)
                 }
             )
-    }
+      },[dispatch]);
+
+ 
     return(
         <Container fluid>
             <div class="flow-root">  
-                <CreateBureau createBureau={create} loading={createLoading}/>
+                <CreateBureau/>
             </div>
             <Grid  grow gutter="lg" >
                 <Grid.Col span={6} md={6} sm={12} >     
                     <Paper shadow="md" radius="lg" p="xl" className='px-0' style={{height: '350px'}}>
                         <Skeleton visible={loading} height='350px' style={{position:'relative'}}>
-                            <Title order={3} className="py-4 mx-6">Bureaus</Title>
+                            <Title order={3} className="py-4 mx-6 ">Bureaus</Title>
                             {
-                                bureaus?
+                                bureaus.length?
                                 bureaus.slice(0,3).map((x)=>
                                     <div>
                                         <BureauListItem bureau={x} key={x.id}/>
@@ -123,7 +107,7 @@ export default function Dashboard(){
                         <Skeleton visible={loading} height='350px' style={{position:'relative'}}>
                             <Title order={3} className="py-4 mx-6">Bureau Heads</Title>
                             {
-                                bureaus?
+                                bureaus.length?
                                 bureaus.slice(0,3).map((x)=>
                                     <div>
                                         < BureauHeadsListItem bureau={x} key={x.id + "s"} />

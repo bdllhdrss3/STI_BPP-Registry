@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter} from "react-router-dom";
 import Home from '../pages/home/Index';
 import Dashboard from '../pages/dashboard/index';
 import DashboardLayout from "../layouts/Dashboard";
@@ -19,7 +19,7 @@ const  router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout/>,
     children: [
-        { index: true, element: <Dashboard /> },
+        { index: true, element: <Dashboard />  },
         // {
         //   path: "contacts/:contactId",
         //   element: <Contact />,

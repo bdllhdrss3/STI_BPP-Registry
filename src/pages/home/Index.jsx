@@ -11,14 +11,39 @@ import productivityImage from "../../assets/images/productivity.jpeg"
 import BureauCard from "./bureauCard"
 import Footer from "./footer"
 import Grid from '@mui/material/Grid';
+import { Button } from '@mantine/core';
+import { useNavigate, } from "react-router-dom";
+import { useSelector } from 'react-redux'
+
 
 export default function Home(){
+    const navigate = useNavigate();
+    const loggedIn = useSelector((state) => state.app.loggedIn)
+
+    const toLogin = () => {
+        navigate("/login")
+    }
+
+    const toHome = () => {
+        navigate("/")
+    }
+    const toDashboard = () => {
+        navigate("/dashboard")
+    }
     return(
         <div>
             <div className="top-row py-8">
-                <header>
-                    <img className='logo mx-10' alt='logo' src={logo}></img>
-                    <buton>jsjsj</buton>
+                <header className="px-4 flow-root">
+                    <img className='logo mx-10 inline-block float-left ' alt='logo' src={logo}></img>
+                    <div className="inline-block float-right my-3 mx-10">
+                        <Button.Group>
+                            <Button radius="xs" compact size="lg" variant="subtle" color="blue" onClick={toHome}>Home</Button>
+                           {loggedIn === false
+                            ? <Button radius="xs" compact size="lg" variant="subtle" onClick={toLogin} >Log in</Button>
+                            :<Button radius="xs" compact size="lg" variant="subtle" onClick={toDashboard} >Dashboard</Button>
+                            }                   
+                        </Button.Group>
+                    </div>
                 </header>
                 <div className=" top-banner mt-8">
                     <h1 className="text-5xl text-white font-bold">

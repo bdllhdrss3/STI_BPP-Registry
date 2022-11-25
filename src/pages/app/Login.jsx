@@ -43,9 +43,9 @@ export default function Login(){
         if(form.isValid()){
             setLoading(true)
             axios.post(`/login/`,{email,password})
-            .then(async function (response) {
-                  await dispatch(setUser({user:response.data?.user}))
-                  await dispatch(setToken({token:response.data?.token}))
+            .then(function (response) {
+                  dispatch(setUser({user:response.data?.user}))
+                  dispatch(setToken({token:response.data?.token}))
                   setLoading(false)
                   navigate("/dashboard");
                 }

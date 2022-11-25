@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+body{
+  font-family: "arial" !important;
+}
+
+*>*{
+  font-family: "arial" !important;
+}

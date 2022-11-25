@@ -1,7 +1,7 @@
 .model-logo{
-    width: 100px;
-    height: 100px;
-    margin-top: 0px;
+    width: 70px;
+    height: 70px;
+    margin-top: 0px !important;
 }
 
 .create-bureau-btn{
@@ -13,4 +13,32 @@
     background-color: #DBC7BE;
     color: black;
     
+}
+
+.mantine-Modal-header{
+    height: 1px;
+    margin: 0px;
+}
+
+.mantine-TextInput-wrapper{
+    padding: 3px;
+}
+ .mantine-Textarea-wrapper{
+    padding: 3px;
+}
+.mantine-Select-wrapper{
+    padding: 3px;
+}
+
+.mantine-Textarea-label{
+    padding: 2px;
+    font-weight: unset;
+}
+.mantine-TextInput-label{
+    padding: 2px;
+    font-weight: unset;
+}
+.mantine-Select-label{
+    padding: 2px;
+    font-weight: unset;
 }

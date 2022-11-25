@@ -1,15 +1,18 @@
 import { useState, useRef } from "react";
 import { useForm, } from '@mantine/form';
 import { Select,Modal, Button, Group, Text,TextInput,} from '@mantine/core';
-import { Container,  Grid,Loader } from '@mantine/core';
+import { Grid,Loader } from '@mantine/core';
 import logo from "../../../assets/images/logo.png"
 import { showNotification } from '@mantine/notifications';
 import axios from "../../../axios/index";
+import {  useDispatch } from 'react-redux'
+import {setBureaus} from '../../../store/app/index'
 import "./style.css"
 
 export default function AssignBureauLead({data}) {
+  const dispatch = useDispatch()
   const [opened, setOpened] = useState(false);
-  const [createLoading,setCreateLoading] = useState(false)
+  const [loading,setLoading] = useState(false)
   const emailRef = useRef(null)
   const firsNameRef = useRef(null)
   const lastNameRef = useRef(null)
@@ -26,9 +29,16 @@ export default function AssignBureauLead({data}) {
     },
   }); 
 
+  function load_bureaus(){
+    axios.get(`/get_bureau`)
+    .then(function (response) {
+        dispatch(setBureaus({bureaus:response.data}))
+        }
+    ).catch(function (error) {}
+    )
+}
   function submit() {
-
-    
+    setLoading(true)  
     if(form.isValid()){
       const email =  emailRef.current.value
       const first_name = firsNameRef.current.value
@@ -45,8 +55,7 @@ export default function AssignBureauLead({data}) {
         contact:"078888856"
     })
         .then(function (response) {
-            setCreateLoading(true)
-            setCreateLoading(false)
+            load_bureaus()
             showNotification({
                 title: 'Success',
                 message: "Bureau created successfully",
@@ -60,6 +69,7 @@ export default function AssignBureauLead({data}) {
                     description: { color: theme.white },
                   }),
               }) 
+              setLoading(false)
             }
         ).catch(function (error) {
               showNotification({
@@ -74,29 +84,32 @@ export default function AssignBureauLead({data}) {
                     title: { color: theme.blue },
                     description: { color: theme.white },
                   }),
-              })   
-              setCreateLoading(false)
+              })  
+              setLoading(false) 
+
             }
         )
     }
-
+    
   }
 
   return (
     <>
       <Modal
-        style={{marginTop: '30px',zIndex:'100'}}
+        radius="lg"
+        style={{marginTop: '30px'}}
         opened={opened}
+        zIndex={100}
+        size="md"
         onClose={() => setOpened(false)}
       >
-        <Container>
             <Grid>
                 <Grid.Col span={12}>
                     <img src={logo} alt="logo" className='model-logo text-center mx-auto'></img>
                 </Grid.Col>
                 <Grid.Col span={12}>
-                    <Text ta="center"  fw={500} fz="md">Create Head Of Bureau</Text>
-                    <Text ta="center"  c="dimmed" fz="md">
+                    <Text ta="center"  fw={500} fz="md" >Create Head Of Bureau</Text>
+                    <Text ta="center"  c="dimmed" fz="md" className="mt-1">
                       {data.bureau.name}
                     </Text>
                     <form onSubmit={form.onSubmit(()=>submit())} >
@@ -108,7 +121,7 @@ export default function AssignBureauLead({data}) {
                           placeholder="First Name"
                           radius="md"
                           value=""
-                          size="sm"
+                          size="md"
                           {...form.getInputProps('first_name')}
                         />
                       <TextInput
@@ -119,7 +132,7 @@ export default function AssignBureauLead({data}) {
                           placeholder="Last Name"
                           radius="md"
                           value=""
-                          size="sm"
+                          size="md"
                           {...form.getInputProps('last_name')}
                       />
                       <TextInput
@@ -130,38 +143,34 @@ export default function AssignBureauLead({data}) {
                           value=""
                           placeholder="Email"
                           radius="md"                     
-                          size="sm"
+                          size="md"
                           {...form.getInputProps('email')}
                       />
                       <Select
                         ref={genderRef}
                         label="Gender" 
                         defaultValue="Male"
+                        size="md"
                         data={[
                             { value: 'Male', label: 'Male' },
                             { value: 'Female', label: 'Female' },
                         ]}
                         />
                       <div className='flex flex-col items-center w-100 '>
-                      {createLoading && <Loader  color="indigo" size="xl" variant="dots" className='text-center mx-auto' />}
-                        <Button disabled={createLoading} type="submit" radius="md" size="md" className='create-bureau-btn my-2 '>
+                      {loading && <Loader  color="indigo" size="xl" variant="dots" className='text-center mx-auto' />}
+                        <Button disabled={loading} type="submit" radius="md" size="md" className='create-bureau-btn my-2 '>
                             Save
                         </Button>
                       </div>   
                     </form> 
                 </Grid.Col>
             </Grid>
-        </Container>
       </Modal>
 
       <Group position="center">
-        {data.bureau.head_of_bureau?<Button color="gray" radius="md" size="md" onClick={() => setOpened(true)}  compact className='assign-btn mx-2'>
+        <Button color="gray" radius="md" size="md" onClick={() => setOpened(true)}  compact className='assign-btn mx-2'>
             Assign
-        </Button>: 
-        <Button color="gray" radius="md" size="md" onClick={() => setOpened(true)}  compact className='change-btn my-1 mx-2'>
-        Change
-      </Button>
-        }
+        </Button>
       </Group>
     </>
   );
